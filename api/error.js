@@ -4,5 +4,5 @@ module.exports = (req, res, next) => {
     if (process.env.NODE_ENV === `Production`) {
         logger.info(req.originalUrl);
     }
-    res.status(404).render(`404`, { layout: false });
+    res.status(404).send(`No such route - 404`);
 }

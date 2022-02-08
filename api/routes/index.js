@@ -11,7 +11,7 @@ const errorHandler = reqHandler => async (req, res, next) => {
 }
 
 router.get(`/`, errorHandler(async (req, res, next) => {
-   res.send(`Post route`)
+   res.send(`This is just a server...`)
 }));
 
 module.exports = router;

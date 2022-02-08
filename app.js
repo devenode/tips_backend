@@ -14,7 +14,7 @@ const error = require('./api/error');
 
 app.use(cors());
 app.use(cookieParser());
-app.use(`/`, routes);
+app.use(routes);
 app.use(error);
 
 
