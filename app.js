@@ -4,7 +4,7 @@ const app = express();
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const sql = require(process.env.DB_PATH);
-const logger = require('./utils/logger')(`app`);
+const logger = require('./utils/logger')(`app.js`);
 const routes = require('./api/routes');
 const error = require('./api/error');
 
@@ -13,6 +13,8 @@ const error = require('./api/error');
 
 app.use((req, res, next) => {
    req.sql = sql;
+   req.models = sql.db.models;
+   next();
 });
 app.use(cors());
 app.use(cookieParser());

@@ -1,4 +1,4 @@
-const logger = require('../../utils/logger')('Posts.js');
+const logger = require('../../utils/logger')('Sections.js');
 const express = require('express');
 const router = express.Router();
 
@@ -11,17 +11,15 @@ const errorHandler = reqHandler => async (req, res, next) => {
    }
 }
 
-router.get(`/:id`, errorHandler(async (req, res, next) => {
-   const { id } = req.params;
+router.get(`/`, errorHandler(async (req, res, next) => {
    const { Posts, Sections } = req.models;
 
-   const post = await Posts.findOne({
-      where: { id },
-      include: [Sections],
-      raw: true
+   const data = await Sections.findAll({
+      include: [Posts]
    });
-   
-   res.json(post);
+
+   const sections = data.map(el => el.get({ plain: true }));
+   res.json(sections);
 }));
 
 module.exports = router;
