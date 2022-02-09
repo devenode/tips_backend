@@ -1,12 +1,16 @@
 module.exports = (db, DataTypes) => {
-   return db.define(`Sections`, {
+   return db.define(`Posts`, {
       id: {
          type: DataTypes.INTEGER,
          primaryKey: true,
          autoIncrement: true
       },
-      title: {
+      shortTitle: {
          type: DataTypes.STRING,
+         allowNull: false,
+      },
+      content: {
+         type: DataTypes.TEXT,
          allowNull: false,
       }
    });
