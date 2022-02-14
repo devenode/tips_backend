@@ -20,6 +20,11 @@ router.get(`/:id`, errorHandler(async (req, res, next) => {
       include: [Sections]
    });
 
+   if (!dataPost) {
+      res.status(404).end();
+      return;   
+   }
+
    const post = dataPost.get({ plain: true });
    res.json(post);
 }));
