@@ -8,6 +8,7 @@ module.exports = (db, DataTypes) => {
       shortTitle: {
          type: DataTypes.STRING,
          allowNull: false,
+         unique: true
       },
       content: {
          type: DataTypes.TEXT,

@@ -27,8 +27,8 @@ const db = new Sequelize({
 const Sections = SectionsModel(db, DataTypes);
 const Posts = PostsModel(db, DataTypes);
 
-Sections.hasMany(Posts);
-Posts.belongsTo(Sections);
+Sections.Posts = Sections.hasMany(Posts);
+Posts.Sections = Posts.belongsTo(Sections);
 
 module.exports = {
    Sequelize,

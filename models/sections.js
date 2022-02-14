@@ -8,6 +8,7 @@ module.exports = (db, DataTypes) => {
       title: {
          type: DataTypes.STRING,
          allowNull: false,
+         unique: true
       }
    });
 }

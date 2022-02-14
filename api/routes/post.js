@@ -15,13 +15,30 @@ router.get(`/:id`, errorHandler(async (req, res, next) => {
    const { id } = req.params;
    const { Posts, Sections } = req.models;
 
-   const post = await Posts.findOne({
+   const dataPost = await Posts.findOne({
       where: { id },
-      include: [Sections],
-      raw: true
+      include: [Sections]
    });
-   
+
+   const post = dataPost.get({ plain: true });
    res.json(post);
+}));
+
+router.post(`/`, errorHandler(async (req, res, next) => {
+   const post = req.body;
+   const { Posts } = req.models;
+
+   await Posts.create({
+      shortTitle: post.shortTitle,
+      content: post.content,
+      Section: {
+         title: post.section.title
+      }
+   }, {
+      include: [Posts.Sections]
+   });
+
+   res.status(200).end();
 }));
 
 module.exports = router;
