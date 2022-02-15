@@ -6,7 +6,7 @@ module.exports = (db, DataTypes) => {
          autoIncrement: true
       },
       title: {
-         type: DataTypes.STRING,
+         type: DataTypes.STRING(50),
          allowNull: false,
          unique: true
       }

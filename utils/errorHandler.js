@@ -1,5 +1,5 @@
 const logger = require('./logger')('routes');
-const { getSequelizeError } = require('../utils/errors');
+const { getSequelizeError } = require('./sequelizeErrors');
 
 const errorHandler = reqHandler => async (req, res, next) => {
    try {

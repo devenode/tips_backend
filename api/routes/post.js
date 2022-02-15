@@ -23,18 +23,24 @@ router.get(`/:id`, errorHandler(async (req, res, next) => {
 router.post(`/`, errorHandler(async (req, res, next) => {
    const post = req.body;
    const { posts } = req.models;
+   const { db } = req.sql;
 
-   const newPostData = await posts.create({
-      shortTitle: post.shortTitle,
-      content: post.content,
-      section: {
-         title: post.section.title
-      }
-   }, {
-      include: [posts.sections]
+   const newPost = await db.transaction(async t => {
+      const newPostData = await posts.create({
+         shortTitle: post.shortTitle,
+         content: post.content,
+         section: {
+            title: post.section.title
+         }
+      }, {
+         include: [posts.sections],
+         transaction: t
+      });
+
+      const newPost = newPostData.get({ plain: true });
+      return newPost;
    });
 
-   const newPost = newPostData.get({ plain: true });
    res.json(newPost);
 }));
 
