@@ -12,14 +12,14 @@ const errorHandler = reqHandler => async (req, res, next) => {
 }
 
 router.get(`/`, errorHandler(async (req, res, next) => {
-   const { Posts, Sections } = req.models;
+   const { posts, sections } = req.models;
 
-   const data = await Sections.findAll({
-      include: [Posts]
+   const sectionsData = await sections.findAll({
+      include: [posts]
    });
 
-   const sections = data.map(el => el.get({ plain: true }));
-   res.json(sections);
+   const sectionsRows = sectionsData.map(el => el.get({ plain: true }));
+   res.json(sectionsRows);
 }));
 
 module.exports = router;

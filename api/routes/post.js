@@ -13,11 +13,11 @@ const errorHandler = reqHandler => async (req, res, next) => {
 
 router.get(`/:id`, errorHandler(async (req, res, next) => {
    const { id } = req.params;
-   const { Posts, Sections } = req.models;
+   const { posts, sections } = req.models;
 
-   const dataPost = await Posts.findOne({
+   const dataPost = await posts.findOne({
       where: { id },
-      include: [Sections]
+      include: [sections]
    });
 
    if (!dataPost) {
@@ -31,16 +31,16 @@ router.get(`/:id`, errorHandler(async (req, res, next) => {
 
 router.post(`/`, errorHandler(async (req, res, next) => {
    const post = req.body;
-   const { Posts } = req.models;
+   const { posts } = req.models;
 
    await Posts.create({
       shortTitle: post.shortTitle,
       content: post.content,
-      Section: {
+      section: {
          title: post.section.title
       }
    }, {
-      include: [Posts.Sections]
+      include: [posts.Sections]
    });
 
    res.status(200).end();

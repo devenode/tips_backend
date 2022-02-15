@@ -1,5 +1,5 @@
 module.exports = (db, DataTypes) => {
-   return db.define(`Posts`, {
+   return db.define(`posts`, {
       id: {
          type: DataTypes.INTEGER,
          primaryKey: true,

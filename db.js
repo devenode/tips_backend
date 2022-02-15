@@ -1,7 +1,7 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const { Op } = Sequelize;
-const SectionsModel = require('./models/sections');
-const PostsModel = require('./models/posts');
+const sectionsModel = require('./models/sections');
+const postsModel = require('./models/posts');
 
 const db = new Sequelize({
    database: process.env.DB_NAME,
@@ -24,11 +24,11 @@ const db = new Sequelize({
    },
 });
 
-const Sections = SectionsModel(db, DataTypes);
-const Posts = PostsModel(db, DataTypes);
+const sections = sectionsModel(db, DataTypes);
+const posts = postsModel(db, DataTypes);
 
-Sections.Posts = Sections.hasMany(Posts);
-Posts.Sections = Posts.belongsTo(Sections);
+sections.posts = sections.hasMany(posts);
+posts.sections = posts.belongsTo(sections);
 
 module.exports = {
    Sequelize,
