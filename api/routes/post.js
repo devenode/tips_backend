@@ -22,7 +22,7 @@ router.get(`/:id`, errorHandler(async (req, res, next) => {
 
    if (!dataPost) {
       res.status(404).end();
-      return;   
+      return;
    }
 
    const post = dataPost.get({ plain: true });
@@ -33,17 +33,18 @@ router.post(`/`, errorHandler(async (req, res, next) => {
    const post = req.body;
    const { posts } = req.models;
 
-   await Posts.create({
+   const newPostData = await posts.create({
       shortTitle: post.shortTitle,
       content: post.content,
       section: {
          title: post.section.title
       }
    }, {
-      include: [posts.Sections]
+      include: [posts.sections]
    });
 
-   res.status(200).end();
+   const newPost = newPostData.get({ plain: true });
+   res.json(newPost);
 }));
 
 module.exports = router;
