@@ -1,15 +1,6 @@
-const logger = require('../../utils/logger')('Posts.js');
+const errorHandler = require('../../utils/errorHandler');
 const express = require('express');
 const router = express.Router();
-
-const errorHandler = reqHandler => async (req, res, next) => {
-   try {
-      await reqHandler(req, res, next);
-   } catch (err) {
-      logger.info(err.stack);
-      res.status(500).send(err.message);
-   }
-}
 
 router.get(`/:id`, errorHandler(async (req, res, next) => {
    const { id } = req.params;
@@ -21,7 +12,7 @@ router.get(`/:id`, errorHandler(async (req, res, next) => {
    });
 
    if (!dataPost) {
-      res.status(404).end();
+      res.status(404).send(`No such post...`);
       return;
    }
 
