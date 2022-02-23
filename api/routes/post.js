@@ -22,8 +22,26 @@ router.get(`/:id`, errorHandler(async (req, res, next) => {
 
 router.post(`/`, errorHandler(async (req, res, next) => {
    const post = req.body;
-   const { posts } = req.models;
+   const { posts, sections } = req.models;
    const { db } = req.sql;
+
+   if (post.section) {
+      const section = await sections.findOne({
+         where: { title: post.section.title },
+         raw: true
+      });
+      if (section) {
+         const newPostData = await posts.create({
+            shortTitle: post.shortTitle,
+            content: post.content,
+            sectionId: section.id
+         });
+
+         const newPost = newPostData.get({ plain: true });
+         res.json(newPost);
+         return;
+      }
+   }
 
    const newPost = await db.transaction(async t => {
       const newPostData = await posts.create({
@@ -42,6 +60,18 @@ router.post(`/`, errorHandler(async (req, res, next) => {
    });
 
    res.json(newPost);
+}));
+
+router.put(`/`, errorHandler(async (req, res, next) => {
+   const { id, shortTitle, content } = req.body;
+   const { posts } = req.models;
+
+   await posts.update(
+      { shortTitle, content },
+      { where: { id } }
+   );
+
+   res.status(200).end();
 }));
 
 module.exports = router;
